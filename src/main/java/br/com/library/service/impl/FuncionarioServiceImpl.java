@@ -18,7 +18,6 @@ import br.com.library.exception.CpfExistenteException;
 import br.com.library.exception.EnderecoNotFoundException;
 import br.com.library.exception.FuncionarioNotFoundException;
 import br.com.library.repositories.FuncionarioRepository;
-import br.com.library.service.EnderecoService;
 import br.com.library.service.FuncionarioService;
 
 @Service
@@ -29,9 +28,6 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
 	@Autowired
 	private ViaCepService viacepService;
-
-	@Autowired
-	private EnderecoService enderecoService;
 
 	@Autowired
 	private ConvertService convert;
@@ -69,13 +65,12 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 		funcionarioRepository.deleteById(id);
 	}
 
-
 	@Override
 	public EnderecoDTO consultarEndereco(String cep) {
 		List<Funcionario> colaboradores = funcionarioRepository.findFuncionariosByEnderecoCep(cep);
 		Funcionario funcionario = colaboradores.stream().filter(func -> func.getEndereco().getCep() != null).findFirst()
 				.orElseThrow(EnderecoNotFoundException::new);
-		return enderecoService.consultarEnderecoCep(funcionario.getEndereco().getCep());
+		return viacepService.obterDadosCep(funcionario.getEndereco().getCep());
 	}
 
 	@Override
@@ -89,7 +84,8 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 	@Override
 	public List<FuncionarioDTO> listaFuncionariosDTOs() {
 		List<Funcionario> lista = funcionarioRepository.findAll();
-		List<FuncionarioDTO> funcionarios = lista.stream().map(convert::converterParaFuncionarioDTO).collect(Collectors.toList());
+		List<FuncionarioDTO> funcionarios = lista.stream().map(convert::converterParaFuncionarioDTO)
+				.collect(Collectors.toList());
 		return funcionarios;
 	}
 }
