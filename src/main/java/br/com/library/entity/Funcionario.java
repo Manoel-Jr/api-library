@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-//@SequenceGenerator(name = "seq_generator", sequenceName = "SEQ_LOJA_DOCUMENTO", initialValue = 5, allocationSize = 1)
 public class Funcionario implements Serializable {
 
 	private static final long serialVersionUID = 1L;

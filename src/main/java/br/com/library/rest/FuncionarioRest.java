@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.library.dto.EnderecoDTO;
 import br.com.library.dto.FuncionarioDTO;
-import br.com.library.entity.Funcionario;
 import br.com.library.service.FuncionarioService;
 
 @RestController
@@ -42,13 +41,13 @@ public class FuncionarioRest {
 	}
 
 	@PatchMapping("/{id}")
-	public ResponseEntity<FuncionarioDTO> atualizar(@PathVariable Long id, @RequestBody Funcionario colaborador) {
+	public ResponseEntity<FuncionarioDTO> atualizar(@PathVariable Long id, @RequestBody FuncionarioDTO colaborador) {
 		return new ResponseEntity<>(funcionarioService.editar(id, colaborador), HttpStatus.OK);
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Funcionario>> listar() {
-		return new ResponseEntity<>(funcionarioService.listarTodos(), HttpStatus.OK);
+	public ResponseEntity<List<FuncionarioDTO>> listar() {
+		return new ResponseEntity<>(funcionarioService.listaFuncionariosDTOs(), HttpStatus.OK);
 	}
 
 	@GetMapping("/consultar-endereco-viacep/{cep}")

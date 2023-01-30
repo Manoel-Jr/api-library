@@ -19,14 +19,8 @@ public class ClienteDTO implements Serializable {
 	private String nomeCompleto;
 
 	private String cpf;
-	
-	private Endereco endereco;
 
-//	private String bairro;
-//
-//	private String localidade;
-//
-//	private String uf;
+	private Endereco endereco;
 
 	public ClienteDTO(Long id, String nomeCompleto, String cpf, Endereco endereco) {
 		super();
@@ -35,7 +29,5 @@ public class ClienteDTO implements Serializable {
 		this.cpf = cpf;
 		this.endereco = endereco;
 	}
-
-	
 
 }

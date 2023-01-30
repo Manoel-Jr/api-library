@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.library.core.MapperConvert;
+import br.com.library.core.ConvertService;
 import br.com.library.dto.ClienteDTO;
 import br.com.library.dto.EnderecoDTO;
 import br.com.library.entity.Cliente;
@@ -20,7 +20,7 @@ import br.com.library.service.ClienteService;
 public class ClienteServiceImpl implements ClienteService {
 
 	@Autowired
-	private MapperConvert convert;
+	private ConvertService convert;
 
 	@Autowired
 	private ViaCepService viacepService;

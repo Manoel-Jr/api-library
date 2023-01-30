@@ -4,7 +4,6 @@ import java.util.List;
 
 import br.com.library.dto.EnderecoDTO;
 import br.com.library.dto.FuncionarioDTO;
-import br.com.library.entity.Funcionario;
 
 public interface FuncionarioService {
 
@@ -14,9 +13,9 @@ public interface FuncionarioService {
 
 	public void excluir(Long id);
 
-	public FuncionarioDTO editar(Long id, Funcionario funcionario);
-
-	public List<Funcionario> listarTodos();
+	public FuncionarioDTO editar(Long id, FuncionarioDTO funcionario);
 
 	public EnderecoDTO consultarEndereco(String cep);
+
+	public List<FuncionarioDTO> listaFuncionariosDTOs();
 }

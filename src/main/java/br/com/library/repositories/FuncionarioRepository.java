@@ -15,4 +15,6 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> 
 	public List<Funcionario> findFuncionariosByEnderecoCep(String cep);
 
 	public Funcionario findByEnderecoCep(String cep);
+	
+
 }

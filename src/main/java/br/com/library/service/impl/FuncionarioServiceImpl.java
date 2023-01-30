@@ -2,12 +2,13 @@ package br.com.library.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.library.core.MapperConvert;
+import br.com.library.core.ConvertService;
 import br.com.library.dto.EnderecoDTO;
 import br.com.library.dto.FuncionarioDTO;
 import br.com.library.entity.Endereco;
@@ -33,7 +34,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 	private EnderecoService enderecoService;
 
 	@Autowired
-	private MapperConvert mapper;
+	private ConvertService convert;
 
 	@Override
 	public FuncionarioDTO cadastrar(FuncionarioDTO funcionario) {
@@ -46,9 +47,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 	private FuncionarioDTO recebendoCampos(FuncionarioDTO funcionario) {
 		verificaCep(funcionario.getEndereco().getCep());
 		EnderecoDTO dto = viacepService.obterDadosCep(funcionario.getEndereco().getCep());
-		Endereco end = mapper.converterParaEndereco(dto);
+		Endereco end = convert.converterParaEndereco(dto);
 		Funcionario colaborador = new Funcionario(null, funcionario.getNomeCompleto(), funcionario.getCpf(), end);
-		return mapper.converterParaFuncionarioDTO(funcionarioRepository.save(colaborador));
+		return convert.converterParaFuncionarioDTO(funcionarioRepository.save(colaborador));
 	}
 
 	private void verificaCep(String cep) {
@@ -60,7 +61,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 	@Override
 	public FuncionarioDTO consultar(Long id) {
 		Optional<Funcionario> funcionario = funcionarioRepository.findById(id);
-		return mapper.converterParaFuncionarioDTO(funcionario.orElseThrow(() -> new FuncionarioNotFoundException()));
+		return convert.converterParaFuncionarioDTO(funcionario.orElseThrow(() -> new FuncionarioNotFoundException()));
 	}
 
 	@Override
@@ -68,10 +69,6 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 		funcionarioRepository.deleteById(id);
 	}
 
-	@Override
-	public List<Funcionario> listarTodos() {
-		return funcionarioRepository.findAll();
-	}
 
 	@Override
 	public EnderecoDTO consultarEndereco(String cep) {
@@ -82,10 +79,17 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 	}
 
 	@Override
-	public FuncionarioDTO editar(Long id, Funcionario funcionario) {
-		funcionario.setId(id);
-		Funcionario colaborador = funcionarioRepository.save(funcionario);
+	public FuncionarioDTO editar(Long id, FuncionarioDTO funcionario) {
+		FuncionarioDTO colaborador = consultar(id);
 		BeanUtils.copyProperties(funcionario, colaborador, "cpf");
-		return mapper.converterParaFuncionarioDTO(colaborador);
+		Funcionario empregado = convert.converterParaFuncionario(colaborador);
+		return convert.converterParaFuncionarioDTO(funcionarioRepository.save(empregado));
+	}
+
+	@Override
+	public List<FuncionarioDTO> listaFuncionariosDTOs() {
+		List<Funcionario> lista = funcionarioRepository.findAll();
+		List<FuncionarioDTO> funcionarios = lista.stream().map(convert::converterParaFuncionarioDTO).collect(Collectors.toList());
+		return funcionarios;
 	}
 }

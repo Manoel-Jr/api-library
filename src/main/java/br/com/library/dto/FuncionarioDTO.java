@@ -13,14 +13,14 @@ public class FuncionarioDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	
+
 	private String nomeCompleto;
 
 	private String cpf;
 
 	private Endereco endereco;
 
-	public FuncionarioDTO(Long id,String nomeCompleto,String cpf, Endereco endereco) {
+	public FuncionarioDTO(Long id, String nomeCompleto, String cpf, Endereco endereco) {
 		super();
 		this.id = id;
 		this.cpf = cpf;

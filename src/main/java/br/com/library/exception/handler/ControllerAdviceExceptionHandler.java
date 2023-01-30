@@ -56,9 +56,9 @@ public class ControllerAdviceExceptionHandler {
 	@ExceptionHandler(ClienteNaoEncontradoException.class)
 	public ResponseEntity<StandarError> cepNaoEncontradoException(ClienteNaoEncontradoException ex,
 			HttpServletRequest request) {
-		StandarError error = new StandarError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
+		StandarError error = new StandarError(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(),
 				Constantes.CLIENTE_NAO_ENCONTRADO, request.getRequestURI());
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
 
 	@ExceptionHandler(CpfNaoEncontradoException.class)

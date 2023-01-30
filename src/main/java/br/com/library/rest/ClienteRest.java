@@ -11,16 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.library.dto.ClienteDTO;
-import br.com.library.dto.EnderecoDTO;
 import br.com.library.service.ClienteService;
-import br.com.library.service.impl.ViaCepService;
 
 @RestController
 @RequestMapping("/clientes")
 public class ClienteRest {
 
-	@Autowired
-	private ViaCepService viaCep;
 
 	@Autowired
 	private ClienteService service;
@@ -35,8 +31,4 @@ public class ClienteRest {
 		return new ResponseEntity<>(service.buscar(id), HttpStatus.OK);
 	}
 
-	@GetMapping("/via-cep/{cep}")
-	public ResponseEntity<EnderecoDTO> consultarCep(@PathVariable String cep) {
-		return new ResponseEntity<>(viaCep.obterDadosCep(cep), HttpStatus.OK);
-	}
 }
